@@ -1,0 +1,76 @@
+# GPXDash Proprietary Freeware License
+
+Copyright © 2026 Marc Ouellet. All rights reserved.
+
+## 1. Definitions
+
+**“GPXDash”** means the GPXDash server application and its associated browser interface, documentation, and official container images made available by the copyright holder, except for third-party components identified under Section 8.
+
+**“Official image”** means a container image published by or on behalf of the copyright holder, including an image published under the `ghcr.io/marcoue/gpxdash` package name.
+
+**“You”** means the individual or legal entity installing or using GPXDash.
+
+## 2. Acceptance
+
+By downloading, installing, or using GPXDash, you agree to this license. If you do not agree, do not download, install, or use GPXDash.
+
+## 3. Permission to Use
+
+Subject to this license, permission is granted, free of charge to download, install, and run official GPXDash releases for personal, non-commercial use. GPXDash is provided at no charge; this license does not require payment or promise continued availability of future releases.
+
+You may make GPXDash available without charge to members of your household and to friends you invite to use your self-hosted installation. This permission does not allow you to offer GPXDash as a paid or public hosting service.
+
+Nonprofit and educational organizations may also install and use GPXDash without charge for their own non-commercial activities. This permission does not extend to businesses or commercial activities.
+
+This permission is limited, non-exclusive, non-transferable, and non-sublicensable. It grants no right to obtain or use source code, except where a separate written permission or an applicable third-party license provides otherwise.
+
+You may modify a copy of GPXDash for your own permitted use. Any such modifications remain subject to this license and applicable third-party licenses. This permission does not allow you to publish, share, sublicense, or distribute the modified version.
+
+## 4. Restrictions
+
+Unless the copyright holder gives prior written permission, you may not:
+
+- Sell, sublicense, lend, or otherwise redistribute GPXDash or an official image, whether unchanged or modified. Each user must obtain the official image directly from a registry or other download source authorized by the copyright holder.
+- Charge for installation, configuration, support, consulting, or other services specifically involving GPXDash.
+- Reverse engineer, decompile, or disassemble GPXDash, except to the extent such activity is permitted by applicable law or an applicable third-party license.
+- Publish, share, sublicense, or distribute a modified version of GPXDash, except where an applicable third-party license grants redistribution rights for its component. Your permission to make modifications for your own permitted use is set out in Section 3.
+- Publish, mirror, repackage, or distribute GPXDash or a modified version.
+- Operate GPXDash as a paid or public hosting service for other people, or bundle it with a commercial product or service. This restriction does not prohibit the no-charge household and invited-friend use expressly permitted in Section 3.
+- Remove or alter copyright, attribution, or other ownership notices.
+- Claim that GPXDash is your own software or that you are its author.
+
+These restrictions do not prohibit you from downloading an official image from an authorized registry and running it for the use permitted by Section 3.
+
+## 5. Ownership
+
+GPXDash and its associated materials are licensed, not sold. The copyright holder retains all rights not expressly granted by this license. No ownership interest or general right to use, publish, or distribute GPXDash source code is granted.
+
+## 6. Term and Termination
+
+This license remains in effect while you comply with its terms. If you materially breach it, the copyright holder may give you written notice describing the breach and a reasonable opportunity to correct it. If you do not correct the breach within that period, this license terminates. Where a breach cannot reasonably be corrected, the copyright holder may terminate this license by written notice, subject to applicable law. Upon termination, you must stop using GPXDash and delete copies of the GPXDash software under your control. This does not require you to delete your own data, including GPX tracks or backups, configuration, or records, subject to applicable law.
+
+The copyright holder may discontinue or stop publishing future releases or publish different license terms for later releases. Either action does not by itself revoke permission to use a copy already obtained under this license, provided you continue to comply with its terms.
+
+## 7. No Warranty, Support, or Service Commitment; Limitation of Liability
+
+GPXDash is provided free of charge, “AS IS” and “AS AVAILABLE,” without warranties or conditions of any kind, express or implied, to the maximum extent permitted by applicable law. This includes, without limitation, warranties or conditions of merchantability, satisfactory quality, fitness for a particular purpose, title, non-infringement, accuracy, availability, security, and error-free operation.
+
+The copyright holder is not obligated to provide installation assistance, technical support, maintenance, updates, upgrades, hosting, data recovery, or any other service. The copyright holder may choose to provide these, but this license does not promise that they will be available or continue.
+
+You are responsible for configuring and operating your installation safely and for making and testing backups of your data, including GPX tracks, database contents, configuration, and required secrets. GPXDash does not guarantee that data will be retained, recoverable, or available without interruption.
+
+To the maximum extent permitted by applicable law, the copyright holder shall not be liable for indirect, incidental, special, consequential, exemplary, or punitive damages, or for loss of data, routes, profits, revenue, or service, arising from or related to GPXDash or this license. Nothing in this license excludes or limits liability or consumer rights that cannot lawfully be excluded or limited.
+
+## 8. Third-Party Components
+
+GPXDash may include or depend on third-party software and materials. Those components remain subject to their own license terms, which apply to those components and prevail over this license where required. Applicable third-party notices and license texts will be provided with the distribution. Nothing in this license limits rights granted by an applicable third-party license.
+
+## 9. Reservation of Rights and Changes
+
+All rights not expressly granted are reserved. The copyright holder may publish updated license terms for future releases. A new version of this license does not retroactively change the terms that applied to a copy already obtained, unless you agree or applicable law permits otherwise.
+
+## 10. Governing Law and Contact
+
+This license is governed by the laws of the Province of Quebec and the applicable laws of Canada. Subject to mandatory law, disputes relating to this license shall be brought before the courts located in the Province of Quebec, Canada.
+
+For permissions and legal notices, contact [dash.app.support@gmail.com](mailto:dash.app.support@gmail.com).
