@@ -1,0 +1,125 @@
+# Edit .env, then run: docker compose up -d
+services:
+  initialize:
+    container_name: gpxdash-initialize
+    # Automatic setup — no changes needed in this section.
+    # Prepares data folders and permissions, saves your DB login from .env,
+    # and generates internal security keys on the first run.
+    # Reuses existing credentials on later runs, then exits.
+    # An "Exited (0)" status is normal: setup completed successfully.
+    image: ghcr.io/marcoue/gpxdash:0.1.1
+    user: "0:0"
+    command: [python, -m, gpxdash_server.installation]
+    env_file: .env
+    volumes:
+      - ./data:/data
+    restart: "no"
+
+  database:
+    container_name: gpxdash-database
+    image: postgres:17.11-bookworm
+    restart: unless-stopped
+    depends_on:
+      initialize:
+        condition: service_completed_successfully
+    environment:
+      # Uses the database username you entered as DB_USER in .env.
+      # Stops with an error if DB_USER is missing or empty. No change needed here.
+      POSTGRES_USER: "${DB_USER:?Set DB_USER in .env}"
+      POSTGRES_DB: gpxdash
+      # Reads your DB_PASSWORD from a file automatically created by the initializer.
+      # Set the password in .env; no change needed here.
+      POSTGRES_PASSWORD_FILE: /run/secrets/gpxdash_db_password
+    volumes:
+      # Keeps database contents in ./data/postgres, beside this Compose file.
+      # Preserves your data when containers are replaced. Include it in backups.
+      - ./data/postgres:/var/lib/postgresql/data
+
+      # Gives PostgreSQL read-only access (:ro) to the password file
+      # created by the initializer. No manual file creation needed.
+      - ./data/config/database:/run/secrets:ro
+    healthcheck:
+      test: [CMD, pg_isready, -U, "${DB_USER}", -d, gpxdash]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    cpus: 4.0
+    mem_limit: 8g
+    pids_limit: 1024
+
+  gpxdash-server:
+    container_name: gpxdash-server
+    image: ghcr.io/marcoue/gpxdash:0.1.1
+    restart: unless-stopped
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      GPXDASH_PUBLIC_ORIGIN: "${GPXDASH_PUBLIC_ORIGIN:-}"
+      GPXDASH_DEVICE_PUBLIC_ORIGIN: "${GPXDASH_DEVICE_PUBLIC_ORIGIN:-}"
+      GPXDASH_TRUSTED_PROXY_IPS: "${GPXDASH_TRUSTED_PROXY_IPS:-}"
+      GPXDASH_GATEWAY_REQUIRED: "${GPXDASH_GATEWAY_REQUIRED:-false}"
+      GPXDASH_AUTH_COOKIE_SECURE: "${GPXDASH_AUTH_COOKIE_SECURE:-false}"
+      GPXDASH_ALTERNATE_ORIGINS: "${GPXDASH_ALTERNATE_ORIGINS:-}"
+      GPXDASH_DEVICE_ALTERNATE_ORIGINS: "${GPXDASH_DEVICE_ALTERNATE_ORIGINS:-}"
+    ports:
+    # Change only the left-hand port to the port you want on your server.
+    # Example: "6001:8000" makes the dashboard available at http://YOUR_SERVER_IP:6001.
+    # Keep the right-hand port at 8000.
+      - "8001:8000"
+    volumes:
+      - ./data/config/owner:/run/secrets:ro
+      - ./data/config/share:/run/gpxdash-share:ro
+      - ./data/support-logs:/var/log/gpxdash
+    cpus: 4.0
+    mem_limit: 4g
+    pids_limit: 1024
+
+  gpxdash-device-server:
+    container_name: gpxdash-device-server
+    image: ghcr.io/marcoue/gpxdash:0.1.1
+    restart: unless-stopped
+    depends_on:
+      gpxdash-server:
+        condition: service_healthy
+    environment:
+      # Tells this container to handle connections and track uploads from the iPhone app.
+      # Leave "device" unchanged; this container does not run the browser dashboard.
+      GPXDASH_SURFACE: device
+      GPXDASH_DEVICE_PUBLIC_ORIGIN: "${GPXDASH_DEVICE_PUBLIC_ORIGIN:-}"
+      GPXDASH_DEVICE_ALTERNATE_ORIGINS: "${GPXDASH_DEVICE_ALTERNATE_ORIGINS:-}"
+      GPXDASH_TRUSTED_PROXY_IPS: "${GPXDASH_TRUSTED_PROXY_IPS:-}"
+    ports:
+    # Server port for iPhone connections, separate from the browser dashboard.
+    # Change only the left-hand port if needed (example: "6002:8000").
+    # Point your device gateway/reverse proxy to that server port. Keep the right-hand port at 8000.
+      - "8002:8000"
+    volumes:
+      - ./data/config/owner:/run/secrets:ro
+    cpus: 2.0
+    mem_limit: 2g
+    pids_limit: 512
+
+  gpxdash-share-server:
+    container_name: gpxdash-share-server
+    image: ghcr.io/marcoue/gpxdash:0.1.1
+    restart: unless-stopped
+    depends_on:
+      gpxdash-server:
+        condition: service_healthy
+    environment:
+      # Tells this container to display tracks through sharing links, not the private dashboard.
+      # Leave "share" unchanged; visitors can only view what you have chosen to share.
+      GPXDASH_SURFACE: share
+      GPXDASH_TRUSTED_PROXY_IPS: "${GPXDASH_TRUSTED_PROXY_IPS:-}"
+    ports:
+    # Server port for viewing shared tracks, separate from the dashboard and iPhone connections.
+    # Change only the left-hand port if needed (example: "6003:8000").
+    # Point your sharing gateway/reverse proxy to that server port. Keep the right-hand port at 8000.
+      - "8003:8000"
+    volumes:
+      - ./data/config/share:/run/secrets:ro
+    cpus: 2.0
+    mem_limit: 2g
+    pids_limit: 512
