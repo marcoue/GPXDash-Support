@@ -7,7 +7,7 @@ services:
     # and generates internal security keys on the first run.
     # Reuses existing credentials on later runs, then exits.
     # An "Exited (0)" status is normal: setup completed successfully.
-    image: ghcr.io/marcoue/gpxdash:0.1.1
+    image: ghcr.io/marcoue/gpxdash:0.1.2
     user: "0:0"
     command: [python, -m, gpxdash_server.installation]
     env_file: .env
@@ -50,7 +50,7 @@ services:
 
   gpxdash-server:
     container_name: gpxdash-server
-    image: ghcr.io/marcoue/gpxdash:0.1.1
+    image: ghcr.io/marcoue/gpxdash:0.1.2
     restart: unless-stopped
     depends_on:
       database:
@@ -78,7 +78,7 @@ services:
 
   gpxdash-device-server:
     container_name: gpxdash-device-server
-    image: ghcr.io/marcoue/gpxdash:0.1.1
+    image: ghcr.io/marcoue/gpxdash:0.1.2
     restart: unless-stopped
     depends_on:
       gpxdash-server:
